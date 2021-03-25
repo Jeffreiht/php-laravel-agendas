@@ -13,19 +13,12 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form action="{{ route('agendas.search') }}" method="POST">
-                        @method('POST')
-                        <div class="row mt-2 mb-2">
-                            <div class="col-sm-10">
-                                <input type="search" name="search" class="form-control" placeholder="Buscador">
-                            </div>
-                            @csrf
-                            <button type="submit" class="btn btn-primary">Buscar</button>
-                        </div>
-                    </form>
-                                    
-                            
-                            
+                    <nav class="navbar navbar-light">
+                        <form class="form-inline">
+                          <input name="buscarpor" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                      </nav>   
                     <div class="row">
                         @foreach ($agendas as $agenda)
                             <div class="col-md-4 mb-3 mt-2">

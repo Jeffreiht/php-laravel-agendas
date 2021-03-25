@@ -6,12 +6,13 @@ use App\Agenda;
 
 use App\Http\Requests\AgendaRequest;
 use Illuminate\Http\Request;
-
 class PageController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
-        $agendas = Agenda::orderBy('id', 'asc')->paginate(9);
+        $name = $request->get('buscarpor');
+        $agendas = Agenda::where('name', 'like', "%$name%")->paginate(9);
+        //$agendas = Agenda::orderBy('id', 'asc')->paginate(9);
 
         return view('index', [
             'agendas' => $agendas
@@ -24,7 +25,8 @@ class PageController extends Controller
 
 
     public function store(AgendaRequest $request){
-        Agenda::create([
+        
+        $agenda = [
             'name' => $request->name,
             'lastName' => $request->lastName,
             'sexo' => $request->sexo,
@@ -32,7 +34,9 @@ class PageController extends Controller
             'email' =>$request->email,
             'estado_civil' => $request->estado_civil,
             'birthay' => $request->birthay
-        ]);
+        ];
+        
+        Agenda::create($agenda);
 
         return redirect('/')->with('status', 'Agenda creada correctamente');
     }
@@ -55,13 +59,5 @@ class PageController extends Controller
         $agenda->delete();
 
         return back()->with('status', 'Se elimino correctamente');
-    }
-
-    public function search(Request $request){
-        dd($request->all());
-        /*
-        $search = $request->get('search');
-        $agendas = Agendas::class('agendas')->where('name', 'like', '%' .$search. '%')->paginate(9);
-        return view('index', compact('agendas'));*/
     }
 }
