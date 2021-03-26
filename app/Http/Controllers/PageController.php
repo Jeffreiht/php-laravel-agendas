@@ -10,8 +10,7 @@ class PageController extends Controller
 {
     public function index(Request $request){
 
-        $name = $request->get('buscarpor');
-        $agendas = Agenda::where('name', 'like', "%$name%")->paginate(9);
+        $agendas = Agenda::result($request->get('buscarpor'))->orderBy('id', 'desc')->paginate(9);
         //$agendas = Agenda::orderBy('id', 'asc')->paginate(9);
 
         return view('index', [
